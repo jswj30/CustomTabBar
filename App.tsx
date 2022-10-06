@@ -164,8 +164,6 @@ const TabBarComponent = ({
   onLayout,
   onPress,
 }: TabBarComponentProps) => {
-  const ref = useRef(null);
-
   const animatedComponentCircleStyles = useAnimatedStyle(() => {
     return {
       transform: [
