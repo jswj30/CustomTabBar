@@ -1,4 +1,4 @@
-import React, {useReducer} from 'react';
+import React, {useReducer, useRef} from 'react';
 import {
   View,
   Text,
@@ -22,6 +22,8 @@ import Animated, {
   withTiming,
   useDerivedValue,
 } from 'react-native-reanimated';
+// icons
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 const Tab = createBottomTabNavigator();
 
@@ -33,7 +35,13 @@ const App = () => {
       <StatusBar barStyle="light-content" />
       <NavigationContainer>
         <Tab.Navigator tabBar={props => <AnimatedTabBar {...props} />}>
-          <Tab.Screen name="Home" component={PlaceholderScreen} />
+          <Tab.Screen
+            name="Home"
+            component={PlaceholderScreen}
+            options={{
+              tabBarIcon: () => <FeatherIcon name="home" />,
+            }}
+          />
           <Tab.Screen name="Upload" component={PlaceholderScreen} />
           <Tab.Screen name="Chat" component={PlaceholderScreen} />
           <Tab.Screen name="Settings" component={PlaceholderScreen} />
@@ -96,11 +104,13 @@ const AnimatedTabBar = ({
       <View style={styles.tabBarContainer}>
         {routes.map((route, index) => {
           const active = index === activeIndex;
+          const {options} = descriptors[route.key];
 
           return (
             <TabBarComponent
               key={route.key}
               active={active}
+              options={options}
               onLayout={e => handleLayout(e, index)}
               onPress={() => navigation.navigate(route.name)}
             />
@@ -113,11 +123,19 @@ const AnimatedTabBar = ({
 
 type TabBarComponentProps = {
   active?: boolean;
+  options: BottomTabNavigationOptions;
   onLayout: (e: LayoutChangeEvent) => void;
   onPress: () => void;
 };
 
-const TabBarComponent = ({active, onLayout, onPress}: TabBarComponentProps) => {
+const TabBarComponent = ({
+  active,
+  options,
+  onLayout,
+  onPress,
+}: TabBarComponentProps) => {
+  const ref = useRef(null);
+
   const animatedComponentCircleStyles = useAnimatedStyle(() => {
     return {
       transform: [
@@ -142,7 +160,7 @@ const TabBarComponent = ({active, onLayout, onPress}: TabBarComponentProps) => {
       <Animated.View
         style={[styles.iconContainer, animatedIconContainerStyles]}>
         {/* @ts-ignore */}
-        <Text>?</Text>
+        {options.tabBarIcon ? options.tabBarIcon() : <Text>?</Text>}
       </Animated.View>
     </Pressable>
   );
