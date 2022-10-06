@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {
-  BottomTabBarProps,
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
@@ -24,6 +23,7 @@ import Animated, {
 } from 'react-native-reanimated';
 // icons
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tab = createBottomTabNavigator();
 
@@ -39,12 +39,42 @@ const App = () => {
             name="Home"
             component={PlaceholderScreen}
             options={{
-              tabBarIcon: () => <FeatherIcon name="home" />,
+              tabBarIcon: () => (
+                <FeatherIcon name="home" color="#604AE6" size={25} />
+              ),
             }}
           />
-          <Tab.Screen name="Upload" component={PlaceholderScreen} />
-          <Tab.Screen name="Chat" component={PlaceholderScreen} />
-          <Tab.Screen name="Settings" component={PlaceholderScreen} />
+          <Tab.Screen
+            name="Upload"
+            component={PlaceholderScreen}
+            options={{
+              tabBarIcon: () => (
+                <FeatherIcon name="upload" color="#604AE6" size={25} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Chat"
+            component={PlaceholderScreen}
+            options={{
+              tabBarIcon: () => (
+                <MaterialCommunityIcons
+                  name="chat-outline"
+                  color="#604AE6"
+                  size={25}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Settings"
+            component={PlaceholderScreen}
+            options={{
+              tabBarIcon: () => (
+                <FeatherIcon name="settings" color="#604AE6" size={25} />
+              ),
+            }}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     </>
@@ -89,7 +119,7 @@ const AnimatedTabBar = ({
   });
 
   return (
-    <View style={[styles.tabBar, {paddingBottom: bottom}]}>
+    <View style={[styles.tabBar, {marginBottom: bottom}, {height: 70}]}>
       <AnimatedSvg
         width={110}
         height={60}
